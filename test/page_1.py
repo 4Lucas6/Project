@@ -37,15 +37,6 @@ def get_dataword_file():
         
 file_name = get_dataword_file()
 
-# แก้ไขฟังก์ชัน 'check_dataword_file'
-def check_dataword_file():
-    current_file = get_dataword_file()
-    if current_file == "dataword2.txt":
-        tk.messagebox.showinfo("Dataword File Check", "Currently using dataword2.txt")
-    elif current_file == "dataword3.txt":
-        tk.messagebox.showinfo("Dataword File Check", "Currently using dataword3.txt")
-    else:
-        tk.messagebox.showinfo("Dataword File Check", "Not using dataword2.txt or dataword3.txt")
 
 
 def load_dataword_data():
@@ -165,7 +156,7 @@ def open_page1():
 
     def start_count():
         num_loop = int(num.get())
-        global a
+        global a5
         if num_loop > int(num_row):
             num_loop = int(num_row)
             if a == 0:
@@ -249,10 +240,7 @@ def open_page1():
 
     style = ttk.Style()
     style.configure("TButton", font=("Kumothin", 18))
-#################################################################
-    check_button = tk.Button(root, text="Check Dataword File", command=check_dataword_file)
-    check_button.grid(row=0,column=0,pady=5,sticky='e')
-#################################################################
+
     manual_button = ttk.Button(frame, text="คู่มือ",width=5)
     manual_button.grid(row=0,column=0,pady=5,sticky='e')
 

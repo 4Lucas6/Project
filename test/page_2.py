@@ -21,6 +21,9 @@ from tkinter import messagebox
 
 ############################################
 def open_page2(previous_root):
+    
+   
+
     previous_root.destroy()
     add_txt_windows = tk.Tk()
     add_txt_windows.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
@@ -65,34 +68,44 @@ def open_page2(previous_root):
         name.delete(0, tk.END)
         
     def delete_txt():
-        global new_array
-        global data
+        #try:
+        index = int(index_input.get()) -1
         
-        try:
+        with open(get_dataword_file(), "r", encoding="utf-8") as file:
+            data = file.read()
+            data_split = data.split(" ")
+            print(data_split)
+            numpy_data = np.array(data_split)
 
-            index = int(index_input.get()) -1
+            num_split = len(numpy_data)
+            num_row = num_split / 3
+            new_array = numpy_data.reshape(int(num_row), 3)
 
 
-            a = str(new_array[index][0])
-            b = str(new_array[index][1])
-            c = str(new_array[index][2])
-            if index == 0:
-                data = data.replace(f"{a} {b} {c} ","")
-            else:
-                data = data.replace(f" {a} {b} {c}" or f"{a} {b} {c} ","")
+        a = str(new_array[index][0])
+        b = str(new_array[index][1])
+        c = str(new_array[index][2])
+        
+        if index == 0:
+            data = data.replace(f"{a} {b} {c} ","")
+        else:
+            data = data.replace(f" {a} {b} {c}" or f"{a} {b} {c} ","")
 
-            with open(file_name, "w", encoding="utf-8") as file:
-                file.write(data)
-                data_split = data.split(" ")
-                numpy_data = np.array(data_split)
+        print(data)
 
-                num_split = len(numpy_data)
-                num_row = num_split / 3
-                new_array = numpy_data.reshape(int(num_row), 3)
+        with open(file_name, "w", encoding="utf-8") as file:
+            file.write(data)
+            data_split = data.split(" ")
+            print(data_split)
+            numpy_data = np.array(data_split)
 
-            txt_label.config(text="ลบคำศัพท์ออกแล้ว!")
-        except:
-            txt_label.config(text="ไม่มีคำศัพท์ลำดับที่คุณกรอกมาในไฟล์!")
+            num_split = len(numpy_data)
+            num_row = num_split / 3
+            new_array = numpy_data.reshape(int(num_row), 3)
+
+        txt_label.config(text="ลบคำศัพท์ออกแล้ว!",bg='#D3F2FF')
+        #except:
+            #txt_label.config(text="ไม่มีคำศัพท์ลำดับที่คุณกรอกมาในไฟล์!")
 
     def check_word(event):
         content = str(input_eng.get())
@@ -115,7 +128,7 @@ def open_page2(previous_root):
                 if qc_eng and qc_th and qc_read_th == True:
                     with open(file_name, "at", encoding="utf-8") as file:
                         file.write(" " + eng_word + " " + th_word + " " + read_th)
-                        txt_label.config(text="เพิ่มคำศัพท์ลงไฟล์แล้ว!")
+                        txt_label.config(text="เพิ่มคำศัพท์ลงไฟล์แล้ว!",bg='#D3F2FF')
                         input_eng.delete(0, tk.END)
                         input_th.delete(0, tk.END)
                         input_read_th.delete(0, tk.END)
@@ -128,10 +141,11 @@ def open_page2(previous_root):
             if qc_eng and qc_th and qc_read_th == True:
                 with open(file_name, "at", encoding="utf-8") as file:
                     file.write(" " + eng_word + " " + th_word + " " + read_th)
-                    txt_label.config(text="เพิ่มคำศัพท์ลงไฟล์แล้ว!")
+                    txt_label.config(text="เพิ่มคำศัพท์ลงไฟล์แล้ว!",bg='#D3F2FF')
                     input_eng.delete(0, tk.END)
                     input_th.delete(0, tk.END)
                     input_read_th.delete(0, tk.END)
+                    
             else:
                 txt_label.config(text="กรุณากรอกตัวอักษรให้ถูกประเภท")
 
@@ -222,7 +236,7 @@ def open_page2(previous_root):
     wrapper1 = ttk.LabelFrame(add_txt_windows)
     wrapper2 = ttk.LabelFrame(add_txt_windows)
 
-    mycanvas = Canvas(wrapper1,bg='#D3F2FF')
+    mycanvas = Canvas(wrapper1)
     mycanvas.grid(row=1, column=0)
     mycanvas.config(width=550, height=300)  
 
@@ -230,8 +244,8 @@ def open_page2(previous_root):
     yscrollbar.grid(row=1, column=1, sticky="ns")  
     mycanvas.configure(yscrollcommand=yscrollbar.set)
 
-    xscrollbar = ttk.Scrollbar(wrapper2, orient="horizontal", command=mycanvas.xview)
-    xscrollbar.grid(row=0, column=0, sticky="ew")
+    xscrollbar = ttk.Scrollbar(wrapper1, orient="horizontal", command=mycanvas.xview)
+    xscrollbar.grid(row=10, column=0, sticky="ew")
     mycanvas.configure(xscrollcommand=xscrollbar.set)
 
     mycanvas.bind('<Enter>', lambda e: mycanvas.bind_all('<MouseWheel>', on_mousewheel))

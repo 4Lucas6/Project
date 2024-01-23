@@ -65,7 +65,7 @@ def open_page4(previous_root):
     op_button = tk.Button(frame,image=photo2_p4,borderwidth=0,bg='#D3F2FF', command=change_to_dataword3)
     op_button.grid(row=2,column=0,pady=15,sticky= 'e')
 
-    lc_button = tk.Button(frame,image=photo3_p4,borderwidth=0,bg='#D3F2FF', command=lambda: back_to_page1(root))
+    lc_button = tk.Button(frame,image=photo3_p4,borderwidth=0,bg='#D3F2FF')
     lc_button.grid(row=3,column=0,pady=15,sticky= 'w')
 
     it_button = tk.Button(frame,image=photo4_p4,borderwidth=0,bg='#D3F2FF')

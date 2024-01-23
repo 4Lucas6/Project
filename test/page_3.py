@@ -20,7 +20,10 @@ i = 0
 th_i = 0
 eng_i = 0
 mycanvas = ""
-
+Wrong_word = np.empty((0,3))
+Wrong_word_count = np.empty((0,2))
+Correct_word = 0
+mycanvas = None
 
 #########################################
 def open_page3(previous_root):
@@ -28,8 +31,8 @@ def open_page3(previous_root):
     root = tk.Tk()
     root.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
     ##root.resizable(False, False)
-    root.minsize(width=550, height=250)
-    root.maxsize(width=650, height=500)
+    #root.minsize(width=550, height=250)
+    #root.maxsize(width=650, height=500)
     root.configure(bg='#D3F2FF')
 
     frame = tk.Frame(root,bg='#D3F2FF')
@@ -65,61 +68,8 @@ def open_page3(previous_root):
             random_numbers = random.sample(range(0, int(num_row)), int(num_row))
             
     def on_mousewheel(event):
-        mycanvas.yview_scroll(-1 * (event.delta // 120), "units")
-
-    def show_wordQWQ():
         global mycanvas
-        wrapper1 = ttk.LabelFrame(frame)
-        wrapper2 = ttk.LabelFrame(frame)
-        wrapper1.grid(row=9, column=0, padx=0, pady=0)  
-
-
-        mycanvas = Canvas(wrapper1)
-        mycanvas.grid(row=1, column=0)
-        mycanvas.config(width=550, height=300)  
-
-        yscrollbar = ttk.Scrollbar(wrapper1, orient="vertical", command=mycanvas.yview)
-        yscrollbar.grid(row=1, column=1, sticky="ns")  
-        mycanvas.configure(yscrollcommand=yscrollbar.set)
-
-        xscrollbar = ttk.Scrollbar(wrapper2, orient="horizontal", command=mycanvas.xview)
-        xscrollbar.grid(row=0, column=0, sticky="ew")
-        mycanvas.configure(xscrollcommand=xscrollbar.set)
-
-        mycanvas.bind('<Enter>', lambda e: mycanvas.bind_all('<MouseWheel>', on_mousewheel))
-        mycanvas.bind('<Leave>', lambda e: mycanvas.unbind_all('<MouseWheel>'))
-
-        mycanvas.bind('<Configure>', lambda e: mycanvas.configure(scrollregion=mycanvas.bbox('all')))
-
-        myframe = ttk.Frame(mycanvas)
-        mycanvas.create_window((0, 0), window=myframe, anchor="nw")
-
-        for widget in myframe.winfo_children():
-            if widget.grid_info()['column'] in [0, 1, 2]:
-                widget.destroy()
-
-        with open(file_name, "r", encoding="utf-8") as file:
-            data = file.read()
-            data_split = data.split(" ")
-            numpy_data = np.array(data_split)
-
-            num_split = len(numpy_data)
-            num_row = num_split / 3
-            new_array = numpy_data.reshape(int(num_row), 3)
-            random_numbers = random.sample(range(0, int(num_row)), int(num_row))
-
-        labels = []
-        indexlabel = ttk.Label(myframe, text=f"คำที่คุณเขียนผิดทั้งหมด มีจำนวน = {len(Wrong_word)} คำ", font=("Kumothin", 18)).grid(row=0, column=0)
-
-        for i in range(len(Wrong_word)):
-            labels.append(ttk.Label)
-            q = ttk.Label(myframe, text=i+1, font=("Kumothin", 18)).grid(row=i+1, column=0)
-            w = ttk.Label(myframe, text=Wrong_word[i, 0], font=("Kumothin", 18)).grid(row=i+1, column=1,)
-            e = ttk.Label(myframe, text=Wrong_word[i, 1], font=("Kumothin", 18)).grid(row=i+1, column=2,)
-
-
-        myframe.update_idletasks()
-        mycanvas.config(scrollregion=mycanvas.bbox("all"))
+        mycanvas.yview_scroll(-1 * (event.delta // 120), "units")
 
     def clear_entry(event, name):
         name.delete(0, tk.END)
@@ -130,9 +80,6 @@ def open_page3(previous_root):
             check_number_test_th()
         elif eng_i == 1:
             check_number_test_eng()
-
-
-
     
     def start_count_test_th():
         global new_array,random_numbers,i,th_i
@@ -146,7 +93,8 @@ def open_page3(previous_root):
             word_test.config(text="การทดสอบเสร็จสิน")
             th_i = 0
             i=0
-        show_wordQWQ()
+            show_wordQWQ()
+
     def start_count_test_eng():
         global new_array,random_numbers,i,eng_i
         eng_i = 1
@@ -158,48 +106,101 @@ def open_page3(previous_root):
         else:
             word_test.config(text="การทดสอบเสร็จสิน")
             eng_i = 0
-            show_wordQWQ()
             i=0
-
+            show_wordQWQ()
+            
 
         
-    Wrong_word = np.empty((0,3))
-    Wrong_word_count = np.empty((0,2))
+
     def check_number_test_th():
         try:
-            global new_array,random_numbers,i,Wrong_word,Wrong_word_count
+            global new_array,random_numbers,i,Wrong_word,Wrong_word_count,Correct_word
             user_input = input_entry.get()
             user_word = str(user_input)
             qwq = new_array[random_numbers[i]]
             if user_word == str(new_array[random_numbers[i]][1]):
                 i+=1
-                print(i)
                 start_count_test_th()
                 input_entry.delete(0, tk.END)
-                
+                Correct_word += 1
+                print(Correct_word)
             else:
                 Wrong_word = np.append(Wrong_word, [qwq],axis=0)
-                print(Wrong_word)
+                i+=1
+                start_count_test_th()
+                input_entry.delete(0, tk.END)
         except:
             label2.config(text="คุณได้ทดสอบเสร็จแล้ว")
 
     def check_number_test_eng():
         try:
-            global new_array,random_numbers,i,Wrong_word,Wrong_word_count
+            global new_array,random_numbers,i,Wrong_word,Wrong_word_count,Correct_word
             user_input = input_entry.get()
             user_word = str(user_input)
             qwq = new_array[random_numbers[i]]
             if user_word.lower() == str(new_array[random_numbers[i]][0]).lower():
                 i+=1
-                print(i)
                 start_count_test_eng()
                 input_entry.delete(0, tk.END)
-                
+                Correct_word +=1
+                print(Correct_word)
             else:
                 Wrong_word = np.append(Wrong_word, [qwq],axis=0)
-                print(Wrong_word)
+                i+=1
+                start_count_test_eng()
+                input_entry.delete(0, tk.END)
         except:
             label2.config(text="คุณได้ทดสอบเสร็จแล้ว")
+
+    def show_wordQWQ():
+        global mycanvas,Wrong_word
+        
+        wrapper1 = ttk.LabelFrame(frame)
+        wrapper2 = ttk.LabelFrame(frame)
+        wrapper1.grid(row=6, column=0, padx=0, pady=0)  
+
+        mycanvas = Canvas(wrapper1)
+        mycanvas.grid(row=1, column=0)
+        mycanvas.config(width=500, height=300)  
+
+        yscrollbar = ttk.Scrollbar(wrapper1, orient="vertical", command=mycanvas.yview)
+        yscrollbar.grid(row=1, column=1, sticky="ns")  
+        mycanvas.configure(yscrollcommand=yscrollbar.set)
+
+        xscrollbar = ttk.Scrollbar(wrapper1, orient="horizontal", command=mycanvas.xview)
+        xscrollbar.grid(row=10, column=0, sticky="ew")
+        mycanvas.configure(xscrollcommand=xscrollbar.set)
+
+        mycanvas.bind('<Enter>', lambda e: mycanvas.bind_all('<MouseWheel>', on_mousewheel))
+        mycanvas.bind('<Leave>', lambda e: mycanvas.unbind_all('<MouseWheel>'))
+
+        mycanvas.bind('<Configure>', lambda e: mycanvas.configure(scrollregion=mycanvas.bbox('all')))
+
+        myframe = ttk.Frame(mycanvas)
+        mycanvas.create_window((0, 0), window=myframe, anchor="nw")
+
+        for widget in myframe.winfo_children():
+            if widget.grid_info()['column'] in [0, 1, 2]:
+                myframe.destroy()
+
+        labels = []
+        
+        indexlabel_C = ttk.Label(myframe, text=f"คำที่คุณเขียนถูกทั้งหมด มีจำนวน = {Correct_word+1} คำ", font=("Kumothin", 18)).grid(row=0, column=0)
+        indexlabel_W = ttk.Label(myframe, text=f"คำที่คุณเขียนผิดทั้งหมด มีจำนวน = {len(Wrong_word)} คำ", font=("Kumothin", 18)).grid(row=1, column=0)
+        
+        for i in range(len(Wrong_word)):
+            labels.append(ttk.Label)
+            q = ttk.Label(myframe, text=i+1, font=("Kumothin", 18)).grid(row=i+2, column=0,padx=100,sticky='w')
+            e = ttk.Label(myframe, text=Wrong_word[i, 0], font=("Kumothin", 18)).grid(row=i+2, column=0,padx=50,sticky='e')
+            r = ttk.Label(myframe, text=Wrong_word[i, 1], font=("Kumothin", 18)).grid(row=i+2, column=2,padx=50)
+            
+        
+        
+        myframe.update_idletasks()
+        mycanvas.config(scrollregion=mycanvas.bbox("all"))
+        Wrong_word = np.empty((0,3))
+
+
 
     load_dataword_data()
     next_p3  = tk.PhotoImage(file="next2.png")
@@ -231,25 +232,20 @@ def open_page3(previous_root):
 
 
 
-
     test_Eng = tk.Button(frame, image=test_eng,borderwidth=0, bg='#D3F2FF',command=start_count_test_eng)
+    
     test_Eng.grid(row=5,column=0,pady=5,sticky='w')
 
     test_Th = tk.Button(frame, image=test_th,borderwidth=0, bg='#D3F2FF',command=start_count_test_th)
     test_Th.grid(row=5,column=0,pady=5,sticky='e')
 
     s_button = tk.Button(frame,image=ba_p3,borderwidth=0, bg='#D3F2FF', command=lambda: back_to_page1(root))
-    s_button.grid(row=6,column=0,pady=5,sticky='w')
+    s_button.grid(row=7,column=0,pady=5,sticky='w')
 
 
     add_word_button = tk.Button(frame,image=up_p3,borderwidth=0, bg='#D3F2FF',command=lambda: open_page2(root))
-    add_word_button.grid(row=6,column=0,pady=5,sticky='e')
+    add_word_button.grid(row=7,column=0,pady=5,sticky='e')
 
-    label1 = tk.Label(frame,text="⠀", font=("Kumothin", 35),bg='#D3F2FF')
-    label1.grid(row=7,column=0)
-
-    label2 = tk.Label(frame,text="⠀",bg='#D3F2FF')
-    label2.grid(row=8,column=0)
 
 
 

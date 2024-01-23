@@ -1,0 +1,8 @@
+#6600AD สีเข้ม layer 1
+
+
+#C183FF สีอ่อน layer 1
+
+#A564D8 สีเข้ม layer 2
+
+#DE9EF8 สีอ่อน layer 2
