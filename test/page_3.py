@@ -15,6 +15,7 @@ from nltk.corpus import words
 
 from tkinter import messagebox
 from page_2 import open_page2
+from page_5 import open_page5
 
 i = 0
 th_i = 0
@@ -29,7 +30,7 @@ mycanvas = None
 def open_page3(previous_root):
     previous_root.destroy()
     root = tk.Tk()
-    root.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
+    root.title("โปรแกรมท่องศัพท์ภาษาอังกฤษ")
     ##root.resizable(False, False)
     #root.minsize(width=550, height=250)
     #root.maxsize(width=650, height=500)
@@ -52,6 +53,22 @@ def open_page3(previous_root):
             return "dataword1.txt"  # ใช้ค่าเริ่มต้นหากไม่พบไฟล์
             
     file_name = get_dataword_file()
+
+    def image_config():
+        with open("dataword_status.txt", "r", encoding="utf-8") as file:
+            datahin = file.read()
+            if datahin == "dataword1.txt":
+                group2_Button.config(image=photo1_p4)
+            elif datahin == "dataword2.txt":
+                group2_Button.config(image=photo2_p4)
+            elif datahin == "dataword3.txt":
+                group2_Button.config(image=photo3_p4)
+            elif datahin == "dataword4.txt":
+                group2_Button.config(image=photo4_p4)
+            elif datahin == "dataword5.txt":
+                group2_Button.config(image=photo5_p4)
+            else:
+                group2_Button.config(image=photo6_p4)
 
     def load_dataword_data():
         global num_row
@@ -203,22 +220,33 @@ def open_page3(previous_root):
 
 
     load_dataword_data()
+
+##########################################################
+    photo1_p4 = tk.PhotoImage(file="1.png")
+    photo2_p4 = tk.PhotoImage(file="2.png")
+    photo3_p4 = tk.PhotoImage(file="3.png")
+    photo4_p4 = tk.PhotoImage(file="4.png")
+    photo5_p4 = tk.PhotoImage(file="5.png")
+    photo6_p4 = tk.PhotoImage(file="6.png")
+##########################################################
+
     next_p3  = tk.PhotoImage(file="next2.png")
     test_eng = tk.PhotoImage(file="test_eng.png")
     test_th  = tk.PhotoImage(file="test_th.png")
     ba_p3    = tk.PhotoImage(file="ba.png")
     up_p3    = tk.PhotoImage(file="up2.png")
 
-
+    group2_Button = tk.Button(frame,image=photo6_p4,borderwidth=0, bg='#D3F2FF')
+    group2_Button.grid(row=0,column=0,pady=5,sticky='w')
+    
     label1 = tk.Label(frame,text="⠀", font=("Kumothin", 20),bg='#D3F2FF')
     label1.grid(row=0,column=0)
 
     word_test = tk.Label(frame, text="คำศัพท์", font=("Kumothin", 40, "bold"),bg='#D3F2FF')
     word_test.grid(row=1,column=0)
 
-    label2 = tk.Label(frame,text="⠀", font=("Kumothin", 20),bg='#D3F2FF')
-    label2.grid(row=2,column=0)
-
+    manual_button = ttk.Button(frame, text="คู่มือ",width=5,command=lambda: open_page5(root))
+    manual_button.grid(row=0,column=0,pady=5,sticky='e')
 
 
     input_entry = ttk.Entry(frame, text="input words",width=40,font=("Kumothin", 16))
@@ -244,11 +272,12 @@ def open_page3(previous_root):
 
 
     add_word_button = tk.Button(frame,image=up_p3,borderwidth=0, bg='#D3F2FF',command=lambda: open_page2(root))
-    add_word_button.grid(row=7,column=0,pady=5,sticky='e')
+    add_word_button.grid(row=7,column=0,pady=10,sticky='e')
 
+    label1 = tk.Label(frame,text="⠀", font=("Kumothin", 20),bg='#D3F2FF')
+    label1.grid(row=8,column=0)
 
-
-
+    image_config()
     root.mainloop()
 
 def back_to_page1(current_root):

@@ -14,7 +14,7 @@ import nltk
 from nltk.corpus import words
 
 from tkinter import messagebox
-
+from page_5 import open_page5
         
 
     
@@ -26,7 +26,7 @@ def open_page2(previous_root):
 
     previous_root.destroy()
     add_txt_windows = tk.Tk()
-    add_txt_windows.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
+    add_txt_windows.title("โปรแกรมท่องศัพท์ภาษาอังกฤษ")
     add_txt_windows.resizable(False, False)
     add_txt_windows.minsize(width=550, height=250)
     add_txt_windows.maxsize(width=650, height=1000)
@@ -37,6 +37,22 @@ def open_page2(previous_root):
 
     frame2 = tk.Frame(add_txt_windows,bg='#D3F2FF')
     frame2.grid(row=2, column=0, padx=50, pady=10)
+
+    def image_config():
+        with open("dataword_status.txt", "r", encoding="utf-8") as file:
+            datahin = file.read()
+            if datahin == "dataword1.txt":
+                group2_Button.config(image=photo1_p4)
+            elif datahin == "dataword2.txt":
+                group2_Button.config(image=photo2_p4)
+            elif datahin == "dataword3.txt":
+                group2_Button.config(image=photo3_p4)
+            elif datahin == "dataword4.txt":
+                group2_Button.config(image=photo4_p4)
+            elif datahin == "dataword5.txt":
+                group2_Button.config(image=photo5_p4)
+            else:
+                group2_Button.config(image=photo6_p4)
 
     def get_dataword_file():
         try:
@@ -189,7 +205,16 @@ def open_page2(previous_root):
 
         myframe.update_idletasks()
         mycanvas.config(scrollregion=mycanvas.bbox("all"))
+
     load_dataword_data()
+
+    photo1_p4 = tk.PhotoImage(file="1.png")
+    photo2_p4 = tk.PhotoImage(file="2.png")
+    photo3_p4 = tk.PhotoImage(file="3.png")
+    photo4_p4 = tk.PhotoImage(file="4.png")
+    photo5_p4 = tk.PhotoImage(file="5.png")
+    photo6_p4 = tk.PhotoImage(file="6.png")
+
     up_p2 = tk.PhotoImage(file="up_p2.png")
     de_p2 = tk.PhotoImage(file="de.png")
     ba_p2 = tk.PhotoImage(file="ba.png")
@@ -199,6 +224,14 @@ def open_page2(previous_root):
     style = ttk.Style()
     style.configure("TButton", font=("Kumothin", 18))
 
+    inupt_Button = tk.Label (frame,text="เพิ่มคำศัพท์", font=("Kumothin", 40, "bold"),bg='#D3F2FF')
+    inupt_Button.grid(row=0,column=0,pady=5)
+
+    group2_Button = tk.Button(frame,image=photo1_p4,borderwidth=0, bg='#D3F2FF')
+    group2_Button.grid(row=0,column=0,pady=5,sticky='w')
+
+    manual_button = ttk.Button(frame, text="คู่มือ",width=5,command=lambda: open_page5(add_txt_windows))
+    manual_button.grid(row=0,column=0,pady=5,sticky='e')
 
     input_th = ttk.Entry(frame , width=35, font=("Kumothin", 18))
     input_th.grid(row=1, column=0, pady=5)
@@ -238,7 +271,7 @@ def open_page2(previous_root):
 
     mycanvas = Canvas(wrapper1)
     mycanvas.grid(row=1, column=0)
-    mycanvas.config(width=550, height=300)  
+    mycanvas.config(width=550, height=250)  
 
     yscrollbar = ttk.Scrollbar(wrapper1, orient="vertical", command=mycanvas.yview)
     yscrollbar.grid(row=1, column=1, sticky="ns")  
@@ -266,7 +299,7 @@ def open_page2(previous_root):
     s_w_button.grid(row=0, column=1 ,padx=(0,0))
 
 
-
+    image_config()
     add_txt_windows.mainloop()
 
 def back_to_page1(current_root):

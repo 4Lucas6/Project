@@ -13,19 +13,19 @@ import re
 import nltk
 from nltk.corpus import words
 
-
-
 from tkinter import messagebox
-
 
 from page_2 import open_page2
 from page_3 import open_page3
 from page_4 import open_page4
+from page_5 import open_page5
+from page_6 import open_page6
 
 num_show2 = 0
 num_show = 0
 a = 0
 set_a = 0
+
 
 #################################################################
 def get_dataword_file():
@@ -36,6 +36,7 @@ def get_dataword_file():
         return "dataword1.txt"  # ใช้ค่าเริ่มต้นหากไม่พบไฟล์
         
 file_name = get_dataword_file()
+
 
 
 
@@ -62,29 +63,20 @@ def check_for_dataword_change():
             return dataword_file
     except FileNotFoundError:
         return "dataword1.txt"
-#################################################################   
 show_text = ""
 count = 0
 count2 = 0
 check_buttom = 0
 
-  
-
-"""
-def closeAll():
-    root.destroy() 
-    add_txt_windows.destroy()
-"""  
-
-##########################
+################################################################
 
 def open_page1():
     
     root = tk.Tk()
-    root.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
+    root.title("โปรแกรมท่องศัพท์ภาษาอังกฤษ")
     ##root.resizable(False, False)
     root.minsize(width=550, height=250)
-    root.maxsize(width=650, height=550)
+    root.maxsize(width=650, height=600)
     root.configure(bg='#D3F2FF')
 
     
@@ -96,6 +88,61 @@ def open_page1():
 
     frame3 = tk.Frame(frame,bg='#D3F2FF')
     frame3.grid(row=6, column=0, pady=10)
+################################################################
+
+    def image_config():
+        with open("dataword_status.txt", "r", encoding="utf-8") as file:
+            datahin = file.read()
+            if datahin == "dataword1.txt":
+                group2_Button.config(image=photo1_p4)
+            elif datahin == "dataword2.txt":
+                group2_Button.config(image=photo2_p4)
+            elif datahin == "dataword3.txt":
+                group2_Button.config(image=photo3_p4)
+            elif datahin == "dataword4.txt":
+                group2_Button.config(image=photo4_p4)
+            elif datahin == "dataword5.txt":
+                group2_Button.config(image=photo5_p4)
+            else:
+                group2_Button.config(image=photo6_p4)
+################################################################
+
+    def theme_config():
+        with open("theme.txt", "r", encoding="utf-8") as file:
+            datatheme = file.read()
+            if datatheme == "themeblue.txt":
+                #group2_Button.config(image=)
+                #manual_button.config(image=)
+                ok_button.config(image=photo1)
+                read_and_Type.config(image=photo7)
+                play_mp3_button.config(image=photo2)
+                loop_buttom.config(image=photo3)
+                reset_buttom.config(image=photo5)
+                add_word_button.config(image=photo4)
+                start_button.config(image=photo6)
+                group_button.config(image=photo8)
+                quiz_button.config(image=photo9)
+            elif datatheme == "themered.txt":
+                group2_Button.config()
+                manual_button.config()
+                ok_button.config()
+                read_and_Type.config()
+                play_mp3_button.config()
+                loop_buttom.config()
+                reset_buttom.config()
+                add_word_button.config()
+            else:
+                group2_Button.config(image=photo6_p4)
+                manual_button.config()
+                ok_button.config()
+                read_and_Type.config()
+                play_mp3_button.config()
+                loop_buttom.config()
+                reset_buttom.config()
+                add_word_button.config()
+
+################################################################
+
 
     def play_mp3():
         qc_eng = all(ord(char) < 123 and ord(char) > 64 for char in show_text)
@@ -130,7 +177,7 @@ def open_page1():
         set_a = 0
         
         count = 0
-        
+    
     def set_global_a():
         global set_a
         set_a = 1
@@ -156,7 +203,7 @@ def open_page1():
 
     def start_count():
         num_loop = int(num.get())
-        global a5
+        global a
         if num_loop > int(num_row):
             num_loop = int(num_row)
             if a == 0:
@@ -219,12 +266,22 @@ def open_page1():
                     result_label.config(text="ผิด! ลองอีกครั้ง")
         except ValueError:
             result_label.config(text="โปรดใส่ตัวเลขที่ถูกต้อง")
-
+    #image_config()
     load_dataword_data()
     num = ttk.Entry(frame3,width=11,font=("Kumothin", 14))
     num.insert(0,"กรอกจำนวนคำศัพท์")
     num.bind("<Button-1>", lambda event,name=num:clear_entry(event,name))
     num.grid(row=2,column=1,padx=7)
+##################################################################
+
+    photo1_p4 = tk.PhotoImage(file="1.png")
+    photo2_p4 = tk.PhotoImage(file="2.png")
+    photo3_p4 = tk.PhotoImage(file="3.png")
+    photo4_p4 = tk.PhotoImage(file="4.png")
+    photo5_p4 = tk.PhotoImage(file="5.png")
+    photo6_p4 = tk.PhotoImage(file="6.png")
+    
+##################################################################
 
     photo1 = tk.PhotoImage(file="next2.png")
     photo2 = tk.PhotoImage(file="playsong2.png")
@@ -238,10 +295,16 @@ def open_page1():
     photo1H = tk.PhotoImage(file="rerun_h.png")
     photo2H = tk.PhotoImage(file="random_h.png")
 
+
     style = ttk.Style()
     style.configure("TButton", font=("Kumothin", 18))
 
-    manual_button = ttk.Button(frame, text="คู่มือ",width=5)
+    
+
+    group2_Button = tk.Button(frame,image=photo1,borderwidth=0, bg='#D3F2FF')
+    group2_Button.grid(row=0,column=0,pady=5,sticky='w')
+
+    manual_button = ttk.Button(frame, text="คู่มือ",width=5, command=lambda: open_page5(root))
     manual_button.grid(row=0,column=0,pady=5,sticky='e')
 
     label = tk.Label(frame, text="คำศัพท์", font=("Kumothin", 30, "bold"),bg='#D3F2FF')
@@ -313,7 +376,15 @@ def open_page1():
     quiz_button = tk.Button(frame,image=photo9,borderwidth=0, bg='#D3F2FF', command=lambda: open_page3(root))
     quiz_button.grid(row=7,column=0,padx=7,pady=5,sticky='e')
 
-    
+    theme_button = ttk.Button(frame,text="เปลี่ยนธีม",width=35,command=lambda:open_page6(root))
+    theme_button.grid(row=8,column=0)
+
+    label1 = tk.Label(frame,text="⠀", font=("Kumothin", 20),bg='#D3F2FF')
+    label1.grid(row=9,column=0)
+
+    theme_config()
+    image_config()
+
     root.mainloop()
 
 if __name__ == "__main__":
