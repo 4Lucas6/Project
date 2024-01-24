@@ -14,7 +14,7 @@ import nltk
 from nltk.corpus import words
 
 from tkinter import messagebox
-
+from page_5 import open_page5
         
 
     
@@ -26,7 +26,7 @@ def open_page2(previous_root):
 
     previous_root.destroy()
     add_txt_windows = tk.Tk()
-    add_txt_windows.title("ตัวอย่างโปรแกรมที่ใช้ ttk")
+    add_txt_windows.title("โปรแกรมท่องศัพท์ภาษาอังกฤษ")
     add_txt_windows.resizable(False, False)
     add_txt_windows.minsize(width=550, height=250)
     add_txt_windows.maxsize(width=650, height=1000)
@@ -199,6 +199,14 @@ def open_page2(previous_root):
     style = ttk.Style()
     style.configure("TButton", font=("Kumothin", 18))
 
+    inupt_Button = tk.Label (frame,text="เพิ่มคำศัพท์", font=("Kumothin", 40, "bold"),bg='#D3F2FF')
+    inupt_Button.grid(row=0,column=0,pady=5)
+
+    group2_Button = ttk.Button(frame,text ="หมวดหมู่",width= 7)
+    group2_Button.grid(row=0,column=0,pady=5,sticky='w')
+
+    manual_button = ttk.Button(frame, text="คู่มือ",width=5,command=lambda: open_page5(add_txt_windows))
+    manual_button.grid(row=0,column=0,pady=5,sticky='e')
 
     input_th = ttk.Entry(frame , width=35, font=("Kumothin", 18))
     input_th.grid(row=1, column=0, pady=5)
@@ -238,7 +246,7 @@ def open_page2(previous_root):
 
     mycanvas = Canvas(wrapper1)
     mycanvas.grid(row=1, column=0)
-    mycanvas.config(width=550, height=300)  
+    mycanvas.config(width=550, height=250)  
 
     yscrollbar = ttk.Scrollbar(wrapper1, orient="vertical", command=mycanvas.yview)
     yscrollbar.grid(row=1, column=1, sticky="ns")  

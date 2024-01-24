@@ -1,1 +1,1 @@
-dataword2.txt
+dataword6.txt
